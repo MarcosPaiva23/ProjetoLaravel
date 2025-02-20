@@ -1,0 +1,22 @@
+.nav-link{
+    color:white;
+}
+
+.texto{
+    color: rgb(30, 215, 96);
+}
+
+body {
+    background-image: url(../images/spotify.jpg);
+    background-size: cover;
+}
+
+.table-success {
+    background-color: rgb(17, 172, 71);
+}
+
+
+.table-success th,
+.table-success td {
+    background-color: inherit;
+}
