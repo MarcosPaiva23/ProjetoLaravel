@@ -17,7 +17,7 @@
     <nav class="navbar navbar-expand-lg" id="navbar">
         <div class="container-fluid">
             <a class="navbar-brand" href="../home" style="color: white">
-                <img src="{{asset('images/logo.png')}}" alt="Logo" width="80" height="80">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" width="80" height="80">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -52,18 +52,21 @@
             </div>
         </div>
         @if (Route::has('login'))
-            @auth
-                <a href="{{ url('/dashboard-home') }}" class="btn btn-info me-2">BackOffice</a>
-                <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                    @csrf
-                    <button type="submit" class="btn btn-info">Logout</button>
-                </form>
-            @else
-                <a href="{{ route('login') }}" class="btn btn-info me-2">Login</a>
-                @if (Route::has('users.add'))
-                    <a href="{{ route('users.add') }}" class="btn btn-info">Register</a>
-                @endif
-            @endauth
+        @auth
+            <a
+                href="{{ url('/dashboard-home') }}"class="btn btn-success me-2">BackOffice</button>
+            </a>
+            <nav class="-mx-3 flex flex-1 justify-end">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-success">Logout</button>
+            </form>
+        @else
+            <a href="{{ route('login') }}" class="btn btn-success me-2">Login</a>
+            @if (Route::has('users.add'))
+                <a href="{{ route('users.add') }}"class="btn btn-success me-2">Register</a>
+            @endif
+        @endauth
         @endif
     </nav>
 
@@ -71,10 +74,6 @@
     <div class="container">
         @yield('content')
     </div>
-
-
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">

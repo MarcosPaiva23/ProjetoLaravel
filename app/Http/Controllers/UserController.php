@@ -62,26 +62,26 @@ class UserController extends Controller
         //
     }
 
-    public function registerForm()
+    public function addUser()
     {
         return view('users.register');
     }
 
-    public function insertUserIntoDB(Request $request)
-    {
+    public function createUser(Request $request){
         $request->validate([
-            'name' => 'required|min:3',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed'
+            'name' => 'required|string|min:3',
+            'email' =>'required|email|unique:users',
+            'password' =>'required|min:8'
         ]);
 
-        DB::table('users')->insert([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'access_level' => 1
+        User::insert(
+            [
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+
         ]);
 
-        return redirect()->route('login')->with('message', 'Registration successful! Please login.');
+        return redirect()->route('login')->with('message', 'User registered successfully');
     }
 }

@@ -4,7 +4,7 @@
 <div class="texto">
     <h2>Register</h2>
     <hr>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('user.create') }}">
         @csrf
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
@@ -35,7 +35,7 @@
             <input type="password" name="password_confirmation" class="form-control" id="password_confirmation">
         </div>
 
-        <button type="submit" class="btn btn-dark">Register</button>
+        <button type="submit" class="btn btn-success">Register</button>
     </form>
 </div>
 
