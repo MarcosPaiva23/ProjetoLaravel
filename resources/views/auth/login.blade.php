@@ -1,6 +1,11 @@
 @extends('layouts.main_layout')
 @section('content')
 
+@if (session('message'))
+        <div class="texto">
+            {{ session('message') }}
+        </div>
+    @endif
 <div class="texto">
 <form method="POST" action="{{ route('login') }}">
     @csrf

@@ -1,6 +1,6 @@
 @extends('layouts.main_layout')
 @section('content')
-<div class="teste">
+<div class="texto">
     @auth
     <h5>Olá {{ Auth::user()->name }}</h5>
     @if (Auth::user()->user_type == 1)
@@ -12,4 +12,3 @@
     @endauth
 </div>
 @endsection
- 
