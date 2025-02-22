@@ -2,7 +2,7 @@
 @section('content')
 
 @if (session('message'))
-        <div class="alert alert-sucess">
+        <div class="texto">
             {{ session('message') }}
         </div>
     @endif

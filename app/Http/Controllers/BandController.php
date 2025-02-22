@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Band;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class BandController extends Controller
 {
@@ -82,16 +84,20 @@ class BandController extends Controller
         $photo=null;
 
             if($request->hasFile('photo')){
-                $photo = Storage::putFile('bandPhotos', $request->photo);
+                $photo = $request->file('photo')->store('bandPhotos', 'public');
 
         Band::insert([
             'name' => $request->name,
             'photo' => $photo,
-            'albums' => $request->album
+            'albums' => $request->albums
         ]);
 
 
-        return redirect()->route('bands')->with('message', 'Banda adicionada com sucesso');
+        return redirect()->route('bands.show')->with('message', 'Banda adicionada com sucesso');
     }
 }
+
+    public function addBand(){
+        return view('bands.add_bands');
+    }
 }

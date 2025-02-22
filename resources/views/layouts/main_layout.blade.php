@@ -36,7 +36,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="../bands">View Bands</a></li>
-                            <li><a class="dropdown-item" href="../add-tasks">Add Bands</a></li>
+                            <li><a class="dropdown-item" href="../add-band">Add Bands</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
