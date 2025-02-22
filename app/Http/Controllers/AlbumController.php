@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Album;
+use App\Models\Band;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AlbumController extends Controller
 {
@@ -73,8 +76,33 @@ class AlbumController extends Controller
         return view('albums.view_album', compact('album'));
     }
 
-    public function addAlbums(){
+    public function addAlbum(){
         $bands = DB::table('bands')->get();
         return view('albums.add_albums', compact('bands'));
     }
+
+    public function createAlbum(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string',
+        'photo' => 'image',
+        'release_date' => 'required|date',
+        'bands_id' => 'required|exists:bands,id'
+    ]);
+
+    $photo = null;
+
+    if ($request->hasFile('photo')) {
+        $photo = $request->file('photo')->store('albumPhotos', 'public');
+    }
+
+    Album::insert([
+        'name' => $request->name,
+        'photo' => $photo,
+        'release_date' => $request->release_date,
+        'bands_id' => $request->bands_id
+    ]);
+
+    return redirect()->route('bands.show', $request->bands_id)->with('message', 'Album added successfully');
+}
 }

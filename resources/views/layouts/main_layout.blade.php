@@ -51,11 +51,6 @@
                 </ul>
             </div>
         </div>
-        <form class="d-flex me-2" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-danger" type="submit">Search</button>
-        </form>
-
         @if (Route::has('login'))
             @auth
                 <a href="{{ url('/dashboard-home') }}" class="btn btn-info me-2">BackOffice</a>
