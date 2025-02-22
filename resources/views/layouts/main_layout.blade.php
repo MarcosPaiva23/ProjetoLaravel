@@ -42,11 +42,10 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            Users
+                            Albums
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../users">View Users</a></li>
-                            <li><a class="dropdown-item" href="../addusers">Add Users</a></li>
+                            <li><a class="dropdown-item" href="../add-album">Add Albums</a></li>
                         </ul>
                     </li>
                 </ul>

@@ -63,13 +63,18 @@ class AlbumController extends Controller
     }
 
     public function viewAlbum($id) {
-        $task = DB::table('tasks')
-        ->join('users','tasks.user_id','users.id')
-        ->where('tasks.id',$id)
-        ->select('tasks.*','users.name as user_name')
+        $task = DB::table('albums')
+        ->join('bands','albums.bands_id','albums.id')
+        ->where('albums.id',$id)
+        ->select('albums.*','bands.name as band_name')
         ->first();
 
 
-        return view('tasks.view_task', compact('task'));
+        return view('albums.view_album', compact('album'));
+    }
+
+    public function addAlbums(){
+        $bands = DB::table('bands')->get();
+        return view('albums.add_albums', compact('bands'));
     }
 }

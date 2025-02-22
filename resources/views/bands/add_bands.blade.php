@@ -12,14 +12,14 @@
                 <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                 <div id="emailHelp" class="form-text"></div>
                 @error('name')
-                nome inválido
+                Invalid name
               @enderror
               </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Number of Albums</label>
               <input type="number"  name="albums" class="form-control" id="exampleInputPassword1">
               @error('albuns')
-                numero inválido
+                Invalid number of albums
               @enderror
             </div>
             <div class="mb-3">
