@@ -51,7 +51,4 @@ Route::post('/create-user',[UserController::class,'createUser']) ->name('user.cr
 
 Route::get('/dashboard-home',[DashboardController::class,'index']) ->name('home_dashboard') ->middleware('auth');
 
-Route::fallback(function () {
-
-return '<h1>Estás todo/a perdido/a. Clica aqui para voltares ao meu site lindo</h1>';
-});
+Route::fallback(function () {return view ('fallback') ;});
