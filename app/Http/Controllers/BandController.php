@@ -75,26 +75,28 @@ class BandController extends Controller
     }
 
     public function createBand(Request $request){
-        $request->validate([
-            'name' => 'required|string',
-            'photo'=> 'image',
-            'albums' => 'required|integer'
-        ]);
+        if (auth()->user()->access_level != 2) {
+            return redirect()->back()->with('error', 'Only admins can add bands.');
+        }
+    $request->validate([
+        'name' => 'required|string',
+        'photo'=> 'image',
+        'albums' => 'required|integer'
+    ]);
 
-        $photo=null;
+    $photo = null;
 
-            if($request->hasFile('photo')){
-                $photo = $request->file('photo')->store('bandPhotos', 'public');
-
-        Band::insert([
-            'name' => $request->name,
-            'photo' => $photo,
-            'albums' => $request->albums
-        ]);
-
-
-        return redirect()->route('bands.show')->with('message', 'Banda adicionada com sucesso');
+    if ($request->hasFile('photo')) {
+        $photo = $request->file('photo')->store('bandPhotos', 'public');
     }
+
+    Band::insert([
+        'name' => $request->name,
+        'photo' => $photo,
+        'albums' => $request->albums
+    ]);
+
+    return redirect()->route('bands.show')->with('message', 'Banda adicionada com sucesso');
 }
 
     public function addBand(){
@@ -102,6 +104,9 @@ class BandController extends Controller
     }
 
     public function deleteBands($id){
+        if (auth()->user()->access_level != 2) {
+            return redirect()->back()->with('error', 'Only admins can delete bands.');
+        }
         DB::table('bands')
         -> where ('id',$id)
         -> delete();
@@ -110,6 +115,10 @@ class BandController extends Controller
     }
 
     public function editBand($id) {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+        
         $band = DB::table('bands')->where('id', $id)->first();
         return view('bands.edit_band', compact('band'));
     }
@@ -129,6 +138,6 @@ class BandController extends Controller
                 'albums' => $request->albums,
             ]);
 
-        return redirect()->route('bands')->with('message', 'Band updated sucessfully');
+        return redirect()->route('bands.show')->with('message', 'Band updated sucessfully');
     }
 }

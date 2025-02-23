@@ -86,8 +86,10 @@ class AlbumController extends Controller
         return view('albums.add_albums', compact('bands'));
     }
 
-    public function createAlbum(Request $request)
-{
+    public function createAlbum(Request $request){
+        if (auth()->user()->access_level != 2) {
+            return redirect()->back()->with('error', 'Only admins can add albums.');
+        }
     $request->validate([
         'name' => 'required|string',
         'photo' => 'image|nullable',
@@ -130,6 +132,9 @@ class AlbumController extends Controller
 }
 
 public function deleteAlbums($id){
+    if (auth()->user()->access_level != 2) {
+        return redirect()->back()->with('error', 'Only admins can delete albums.');
+    }
     DB::table('albums')
     -> where ('id',$id)
     -> delete();
@@ -138,6 +143,9 @@ public function deleteAlbums($id){
 }
 
 public function editAlbum($id) {
+    if (!auth()->check()) {
+        return redirect()->route('login');
+    }
     $albums = DB::table('albums')
     ->where('id', $id)
     ->first();
