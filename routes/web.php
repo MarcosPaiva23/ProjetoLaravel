@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BandController;
 use App\Http\Controllers\HomeController;
@@ -15,11 +16,11 @@ Route::get('/home',[HomeController::class, 'index'])->name('home');
 
 Route::get('/bands',[BandController::class, 'bands'])->name('bands.show');
 
-// Rotas que precisam de login para poder acessar
+// Rotas que precisam de login para poder aceder
 Route::middleware(['auth'])->group(function (){
 
     //Rotas exclusivas para admins
-    Route::middleware('admin')->group(function(){
+    Route::middleware([IsAdmin::class])->group(function(){
         Route::post('/create-band', [BandController::class, 'createBand'])->name('bands.create');
 
 Route::get('/add-band', [BandController::class, 'addBand'])->name('bands.add');

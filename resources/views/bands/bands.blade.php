@@ -1,11 +1,18 @@
 @extends('layouts.main_layout')
 @section('content')
 
-@if (session('message'))
+    @if (session('message'))
         <div class="texto">
             {{ session('message') }}
         </div>
     @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
 
     <br>
     <div class="texto">
@@ -32,14 +39,15 @@
                             <a class="btn btn-success" href="{{ route('albums.view', $band->id) }}">Albums</a>
                         </td>
                         <td>
-                            @if($band->photo)
+                            @if ($band->photo)
                                 <img src="{{ asset('storage/' . $band->photo) }}" class="table-image">
                             @else
                                 <img src="{{ asset('images/no-photo.jpg') }}" class="table-image">
                             @endif
                         </td>
                         <td><a class="btn btn-success" href="{{ route('bands.edit', $band->id) }}">Edit</a>
-                            <a class="btn btn-danger" href="{{route('bands.delete', $band->id)}}">Delete</a></td>
+                            <a class="btn btn-danger" href="{{ route('bands.delete', $band->id) }}">Delete</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

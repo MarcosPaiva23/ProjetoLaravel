@@ -96,7 +96,7 @@ class BandController extends Controller
         'albums' => $request->albums
     ]);
 
-    return redirect()->route('bands.show')->with('message', 'Banda adicionada com sucesso');
+    return redirect()->route('bands')->with('message', 'Banda adicionada com sucesso');
 }
 
     public function addBand(){
@@ -118,7 +118,7 @@ class BandController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
-        
+
         $band = DB::table('bands')->where('id', $id)->first();
         return view('bands.edit_band', compact('band'));
     }
@@ -138,6 +138,6 @@ class BandController extends Controller
                 'albums' => $request->albums,
             ]);
 
-        return redirect()->route('bands.show')->with('message', 'Band updated sucessfully');
+        return redirect()->route('bands')->with('message', 'Band updated sucessfully');
     }
 }

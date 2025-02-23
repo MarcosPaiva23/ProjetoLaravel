@@ -1,7 +1,7 @@
 @extends('layouts.main_layout')
 @section('content')
 
-<div class="teste">
+<div class="texto">
     <form method="POST" action="{{ route('password.email') }}">
         @csrf
         <div class="mb-3">

@@ -13,6 +13,6 @@ class IsAdmin
             return $next($request);
         }
 
-        return redirect('/bands.show')->with('error', 'Access Unauthorized.');
+        return redirect('/bands')->with('error', 'Access Unauthorized.');
     }
 }
