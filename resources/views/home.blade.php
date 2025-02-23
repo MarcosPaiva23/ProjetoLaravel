@@ -3,7 +3,7 @@
 @section('content')
 <div class="texto">
     <br>
-    <h1>Bem-vindo/a à homepage do Marcos!!</h1>
+    <h1><b>Welcome to the Spofify CRM portal</b></h1>
     <hr>
 
 @endsection

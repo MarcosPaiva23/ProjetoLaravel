@@ -5,14 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>O Marcos é fixe</title>
+    <title>Spofify CRM</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body>
-
 
     <nav class="navbar navbar-expand-lg" id="navbar">
         <div class="container-fluid">
@@ -49,27 +48,28 @@
                         </ul>
                     </li>
                 </ul>
+                @if (Route::has('login'))
+                    @auth
+                        <div class="d-flex align-items-center">
+                            <a href="{{ url('/dashboard-home') }}" class="btn btn-success me-2">BackOffice</a>
+                            <form action="{{ route('logout') }}" method="POST" class="m-0 p-0">
+                                @csrf
+                                <button type="submit" class="btn btn-success">Logout</button>
+                            </form>
+                        </div>
+                    @else
+                        <div class="d-flex align-items-center">
+                            <a href="{{ route('login') }}" class="btn btn-success me-2">Login</a>
+                            @if (Route::has('users.add'))
+                                <a href="{{ route('users.add') }}" class="btn btn-success">Register</a>
+                            @endif
+                        </div>
+                    @endauth
+                @endif
+
             </div>
         </div>
-        @if (Route::has('login'))
-        @auth
-            <a
-                href="{{ url('/dashboard-home') }}"class="btn btn-success me-2">BackOffice</button>
-            </a>
-            <nav class="-mx-3 flex flex-1 justify-end">
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="btn btn-success">Logout</button>
-            </form>
-        @else
-            <a href="{{ route('login') }}" class="btn btn-success me-2">Login</a>
-            @if (Route::has('users.add'))
-                <a href="{{ route('users.add') }}"class="btn btn-success me-2">Register</a>
-            @endif
-        @endauth
-        @endif
     </nav>
-
 
     <div class="container">
         @yield('content')

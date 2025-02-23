@@ -1,11 +1,13 @@
 @extends('layouts.main_layout')
 @section('content')
 <div class="texto">
+
+
     @auth
-    <h5>Olá {{ Auth::user()->name }}</h5>
-    @if (Auth::user()->user_type == 1)
+    <h1>Hello {{ Auth::user()->name }}!!</h1>
+    @if (Auth::user()->access_level == 2)
     <div class="alert alert-light" role="alert">
-        Conta de administrador
+        Admin account
     </div>
 
     @endif
