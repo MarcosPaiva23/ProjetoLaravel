@@ -100,4 +100,35 @@ class BandController extends Controller
     public function addBand(){
         return view('bands.add_bands');
     }
+
+    public function deleteBands($id){
+        DB::table('bands')
+        -> where ('id',$id)
+        -> delete();
+
+        return back();
+    }
+
+    public function editBand($id) {
+        $band = DB::table('bands')->where('id', $id)->first();
+        return view('bands.edit_band', compact('band'));
+    }
+
+    public function updateBand(Request $request, $id) {
+        $request->validate([
+            'name' => 'required|string|max:50',
+            'photo' => 'nullable|numeric',
+            'albums' => 'nullable|numeric',
+        ]);
+
+        DB::table('bands')
+            ->where('id', $id)
+            ->update([
+                'name' => $request->name,
+                'photo' => $request->photo,
+                'albums' => $request->albums,
+            ]);
+
+        return redirect()->route('bands')->with('message', 'Band updated sucessfully');
+    }
 }

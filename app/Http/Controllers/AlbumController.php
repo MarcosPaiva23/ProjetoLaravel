@@ -65,15 +65,27 @@ class AlbumController extends Controller
         //
     }
 
-    public function viewAlbum($id) {
-        $task = DB::table('albums')
-        ->join('bands','albums.bands_id','albums.id')
-        ->where('albums.id',$id)
-        ->select('albums.*','bands.name as band_name')
+    public function getAllAlbunsFromDB(){
+        $albums = DB::table('albums')
+        ->join('bands', 'albums.bands_id', '=', 'bands.id')
+        ->select('albums.*', 'bands.name as band')
+        ->get();
+        return $albums;
+    }
+
+    public function viewAlbum(string $id) {
+        $bands = DB::table('bands')
+        ->where('id',$id)
         ->first();
 
+        $albums = DB::table('albums')
+        ->join('bands','bands.id','=','albums.bands_id')
+        ->where('bands.id',$id)
+        ->select('albums.*')
+        ->get();
 
-        return view('albums.view_album', compact('album'));
+
+        return view('albums.view_album', compact('bands','albums'));
     }
 
     public function addAlbum(){
@@ -96,7 +108,9 @@ class AlbumController extends Controller
         $photo = $request->file('photo')->store('albumPhotos', 'public');
     }
 
-    Album::insert([
+    DB::table('albums')
+        ->where('id',$id)
+        ->insert ([
         'name' => $request->name,
         'photo' => $photo,
         'release_date' => $request->release_date,
@@ -104,5 +118,41 @@ class AlbumController extends Controller
     ]);
 
     return redirect()->route('bands.show', $request->bands_id)->with('message', 'Album added successfully');
+}
+
+public function deleteAlbums($id){
+    DB::table('albums')
+    -> where ('id',$id)
+    -> delete();
+
+    return back();
+}
+
+public function editAlbum($id) {
+    $albums = DB::table('albums')
+    ->where('id', $id)
+    ->first();
+    $bands = DB::table('bands')->get();
+    return view('albums.edit_album', compact('albums','bands'));
+}
+
+public function updateAlbum(Request $request, $id) {
+    $request->validate([
+        'name' => 'required|string',
+        'photo' => 'image',
+        'release_date' => 'required|date',
+        'bands_id' => 'required|exists:bands,id'
+    ]);
+
+    DB::table('albums')
+        ->where('id', $id)
+        ->update([
+            'name' => $request->name,
+            'photo' => $request->photo,
+            'release_date' =>$request->release_date,
+            'albums' => $request->albums
+        ]);
+
+    return redirect()->route('bands')->with('message', 'Band updated sucessfully');
 }
 }
