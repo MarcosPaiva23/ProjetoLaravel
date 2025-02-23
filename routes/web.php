@@ -25,7 +25,7 @@ Route::get('/edit-band/{id}', [BandController::class, 'editBand'])->name('bands.
 
 Route::post('/update-band/{id}', [BandController::class, 'updateBand'])->name('bands.update');
 
-Route::get('/album/{id}', [AlbumController::class, 'viewAlbum'])->name('albums.view');
+Route::get('/albums/{id}', [AlbumController::class, 'viewAlbums'])->name('albums.view');
 
 Route::get('/add-album', [AlbumController::class, 'addAlbum'])->name('albums.add');
 

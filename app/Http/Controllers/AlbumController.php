@@ -73,19 +73,12 @@ class AlbumController extends Controller
         return $albums;
     }
 
-    public function viewAlbum(string $id) {
-        $bands = DB::table('bands')
-        ->where('id',$id)
-        ->first();
-
+    public function viewAlbums($id) {
         $albums = DB::table('albums')
-        ->join('bands','bands.id','=','albums.bands_id')
-        ->where('bands.id',$id)
-        ->select('albums.*')
-        ->get();
+            ->where('bands_id', $id)
+            ->get();
 
-
-        return view('albums.view_album', compact('bands','albums'));
+        return view('albums.view_albums', compact('albums'));
     }
 
     public function addAlbum(){
@@ -97,10 +90,27 @@ class AlbumController extends Controller
 {
     $request->validate([
         'name' => 'required|string',
-        'photo' => 'image',
+        'photo' => 'image|nullable',
         'release_date' => 'required|date',
         'bands_id' => 'required|exists:bands,id'
     ]);
+
+
+      $band = DB::table('bands')
+      ->where('id', $request->bands_id)
+      ->first();
+
+
+    $currentAlbums = DB::table('albums')
+      ->where('bands_id', $request->bands_id)
+      ->count();
+
+
+     if ($currentAlbums >= $band->albums) {
+      DB::table('bands')
+          ->where('id', $request->bands_id)
+          ->update(['albums' => $currentAlbums + 1]);
+  }
 
     $photo = null;
 
@@ -109,7 +119,6 @@ class AlbumController extends Controller
     }
 
     DB::table('albums')
-        ->where('id',$id)
         ->insert ([
         'name' => $request->name,
         'photo' => $photo,
@@ -139,7 +148,7 @@ public function editAlbum($id) {
 public function updateAlbum(Request $request, $id) {
     $request->validate([
         'name' => 'required|string',
-        'photo' => 'image',
+        'photo' => 'image|nullable',
         'release_date' => 'required|date',
         'bands_id' => 'required|exists:bands,id'
     ]);
@@ -150,9 +159,9 @@ public function updateAlbum(Request $request, $id) {
             'name' => $request->name,
             'photo' => $request->photo,
             'release_date' =>$request->release_date,
-            'albums' => $request->albums
+            'bands_id' => $request->bands_id
         ]);
 
-    return redirect()->route('bands')->with('message', 'Band updated sucessfully');
+    return redirect()->route('bands.show')->with('message', 'Album updated sucessfully');
 }
 }

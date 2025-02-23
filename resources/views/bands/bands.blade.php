@@ -31,7 +31,13 @@
                         <td>{{ $band->albums }}
                             <a class="btn btn-success" href="{{ route('albums.view', $band->id) }}">Albums</a>
                         </td>
-                        <td>{{ $band->photo }}</td>
+                        <td>
+                            @if($band->photo)
+                                <img src="{{ asset('storage/' . $band->photo) }}" class="table-image">
+                            @else
+                                <img src="{{ asset('images/no-photo.jpg') }}" class="table-image">
+                            @endif
+                        </td>
                         <td><a class="btn btn-success" href="{{ route('bands.edit', $band->id) }}">Edit</a>
                             <a class="btn btn-danger" href="{{route('bands.delete', $band->id)}}">Delete</a></td>
                     </tr>

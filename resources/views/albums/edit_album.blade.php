@@ -6,7 +6,6 @@
     <hr>
     <form action="{{ route('albums.update', $albums->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
-        @method('PUT') <!-- Add this for Laravel to recognize it as an update request -->
         <div class="mb-3">
             <label for="albumName" class="form-label">Album Name</label>
             <input type="text" name="name" class="form-control" id="albumName" value="{{ $albums->name }}">
@@ -24,11 +23,11 @@
         </div>
 
         <div class="mb-3">
-            <label for="band_id" class="form-label">Band</label>
-            <select name="band_id" class="form-control" id="band_id" required>
+            <label for="bands_id" class="form-label">Band</label>
+            <select name="bands_id" class="form-control" id="bands_id" required>
                 <option value="">Select a band</option>
                 @foreach ($bands as $band)
-                    <option value="{{ $band->id }}" {{ $albums->band_id == $band->id ? 'selected' : '' }}>{{ $band->name }}</option>
+                    <option value="{{ $band->id }}" {{ $albums->bands_id == $band->id ? 'selected' : '' }}>{{ $band->name }}</option>
                 @endforeach
             </select>
             @error('band_id')
